@@ -31,7 +31,45 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with constitution v1.0.0 principles:
+
+### Security & Access Control
+- [ ] All database queries enforce Row Level Security (RLS)
+- [ ] API endpoints authenticated via Supabase Auth with JWT claims
+- [ ] Least privilege principle applied to all data access
+- [ ] All external inputs validated using Zod schemas
+
+### Database & Migrations
+- [ ] Schema changes implemented via Supabase CLI migrations only
+- [ ] Critical business rules implemented as database functions/triggers/RLS
+- [ ] Multi-tenancy support in schema design
+- [ ] All migrations tested in non-production environments first
+
+### API & Integration
+- [ ] API contracts documented (OpenAPI/GraphQL schema)
+- [ ] API versioning follows semver
+- [ ] Breaking changes include migration guide
+- [ ] Edge functions are stateless (delegate persistence to database)
+
+### Code Quality & Testing
+- [ ] TypeScript used for all backend/edge function code
+- [ ] Integration tests cover critical user flows
+- [ ] Database logic (triggers, RPCs) has test coverage
+- [ ] Linting (ESLint) and formatting (Prettier) configured
+
+### Environment & Configuration
+- [ ] Environment isolation (local/staging/production) configured
+- [ ] No credentials committed (use .env.example + secret managers)
+- [ ] Consistent logging strategy for errors/metrics
+- [ ] Supabase local development environment used
+
+### Architecture Standards
+- [ ] Repository structure follows: /supabase, /src, /tests, /docs
+- [ ] Dependencies justified and minimal (prefer Supabase native)
+- [ ] Horizontal scaling considerations in design
+- [ ] Change management via peer-reviewed PRs
+
+**Complexity Justification**: If any gate fails, document in Complexity Tracking table with rationale.
 
 ## Project Structure
 

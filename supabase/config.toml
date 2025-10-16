@@ -1,0 +1,75 @@
+# Supabase Local Development Configuration
+# Generated for village-management-backend project
+
+[api]
+enabled = true
+# Port to use for the API URL.
+port = 54321
+# Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
+# endpoints. public and storage are always included.
+schemas = ["public", "storage", "graphql_public"]
+# Extra schemas to add to the search_path of every request. public is always included.
+extra_search_path = ["public", "extensions"]
+# The maximum number of rows returns from a view, table, or stored procedure. Limits payload size
+# for accidental or malicious requests.
+max_rows = 1000
+
+[db]
+# Port to use for the local database URL.
+port = 54322
+# Port used by db diff command to initialise the shadow database.
+shadow_port = 54320
+# The database major version to use. This has to be the same as your remote database's. Run `SHOW
+# server_version;` on the remote database to check.
+major_version = 15
+
+[studio]
+enabled = true
+# Port to use for Supabase Studio.
+port = 54323
+# External URL of the API server that frontend connects to. Include port to match local API origin.
+# This prevents CORS/Origin mismatches when the frontend (e.g. Next.js) runs on http://localhost:3000
+api_url = "http://localhost:54321"
+
+[auth]
+enabled = true
+# The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
+# in emails.
+site_url = "http://localhost:3000"
+# A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
+additional_redirect_urls = ["https://localhost:3000"]
+# How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
+jwt_expiry = 3600
+# If disabled, the refresh token will never expire.
+enable_refresh_token_rotation = true
+# Allows refresh tokens to be reused after expiry, up to the specified interval in seconds.
+# Requires enable_refresh_token_rotation = true.
+refresh_token_reuse_interval = 10
+# Allow/disallow new user signups to your project.
+enable_signup = true
+
+# NOTE: For RLS policies that need the current user's `user_profile.id` without
+# querying the `user_profile` table (to avoid infinite recursion), ensure your
+# authentication flow populates `app_metadata.user_profile_id` in the JWT
+# (request.jwt.claims). The project's function `public.get_current_user_profile_id()`
+# reads that claim and returns it when present. If your backend does not populate
+# this claim, RLS policies that call `get_current_user_profile_id()` may return
+# NULL or cause recursion if the function queries `user_profile` directly.
+#
+# How to populate `app_metadata.user_profile_id` in Supabase:
+# - After creating the `user_profile` row (e.g. in an admin action or auth trigger),
+#   update the user's `app_metadata` using the Admin API so future JWTs contain
+#   the `user_profile_id`. Example (server-side):
+#     auth.admin.update_user_by_id(uid, { app_metadata: { user_profile_id: '<uuid>' } })
+# - Alternatively, have your client fetch the profile id after sign-in and store
+#   tenant/profile context in your application state; but for RLS-safe policies
+#   prefer embedding `user_profile_id` in the JWT.
+
+[auth.email]
+# Allow/disallow new user signups via email to your project.
+enable_signup = true
+# If enabled, a user will be required to confirm any email change on both the old, and new email
+# addresses. If disabled, only the new email is required to confirm.
+double_confirm_changes = true
+# If enabled, users need to confirm their email address before signing in.
+enable_confirmations = false
